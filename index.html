@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css" class="css">
+    <meta charset="utf-8">
+    <title>Favorite animals</title>
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+
+    <div class="container container-fixed">
+        <!--    <h1>animal Searchh</h1> -->
+
+        <!-- Rendered buttons will get dumped here  -->
+        <div id="buttons-view"></div>
+
+        <form id="animal-form">
+
+            <label for="animal-input">AdD an animal</label>
+            <input type="text" id="animal-input"><br>
+
+            <!-- Button triggers new animal to be added -->
+            <input id="add-animal" type="submit" value="Submit">
+        </form>
+
+        <!-- animals will get dumped Here -->
+        <div id="animals-view"></div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            // Initial array of animals
+            var animals = ["Dog", "cat", "rabbit", "hamster"];
+
+            /*       div = $("<div>").html("Loading......"); */
+            /*       var div = $("<div>");
+                  $("body").append(div); */
+
+
+
+            // displayanimalInfo function re-renders the HTML to display the appropriate content
+            function displayanimalInfo() {
+                /*      console.log("exec displayanimalinfo"); */
+
+                var animalSearch = $(this).attr("data-name");
+
+                var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + animalSearch + "&apikey=x2l6RaebEcGhKgYC7CY6UhMQir4Icidu&limit=1";
+
+                // Creates AJAX call for the specific animal button being clicked
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function (response) {
+
+                    console.log(response);
+
+                });
+
+            }
+
+            // Function for displaying animal data
+            function renderButtons() {
+
+                // Deletes the animals prior to adding new animals
+                // (this is necessary otherwise you will have repeat buttons)
+                $("#buttons-view").empty();
+                // Loops through the array of animals
+                for (var i = 0; i < animals.length; i++) {
+
+                    // Then dynamicaly generates buttons for each animal in the array
+                    // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
+                    var a = $("<button>");
+                    // Adds a class of animal to our button
+                    a.addClass("btn btn-success animal");
+                    // Added a data-attribute
+                    a.attr("data-name", animals[i]);
+                    // Provided the initial button text
+                    a.text(animals[i]);
+                    // Added the button to the buttons-view div
+                    $("#buttons-view").append(a);
+                }
+            }
+
+            // This function handles events where the add animal button is clicked
+            $("#add-animal").on("click", function (event) {
+                event.preventDefault();
+                // This line of code will grab the input from the textbox
+                var animal = $("#animal-input").val().trim();
+
+                // The animal from the textbox is then added to our array
+                animals.push(animal);
+
+                // Calling renderButtons which handles the processing of our animal array
+                renderButtons();
+            });
+
+            // Adding click event listeners to all elements with a class of "animal"
+            $(document).on("click", ".animal", displayanimalInfo);
+
+            // Calling the renderButtons function to display the intial buttons
+            renderButtons();
+        </script>
+    </div>
+</body>
+
+</html>

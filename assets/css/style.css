@@ -1,0 +1,28 @@
+    button,
+    div,
+    form,
+    input {
+      margin: 10px;
+    }
+
+    .container {
+      background-color: blue;
+    }
+
+    #animal-input {
+      margin-right: 10px;
+    }
+
+    #buttons-view {
+      background-color: yellow;
+    }
+
+    #animal-form {
+      background-color: red;
+      margin-left: 700px;
+      width: 33%;
+      height: 150px;
+      padding: 20px;
+      position: relative;
+      /*       float: left; */
+    }
